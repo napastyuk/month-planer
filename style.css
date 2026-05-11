@@ -1,15 +1,19 @@
 :root {
     --page-w: 297mm;
     --page-h: 210mm;
-    --page-pad: 8mm;
+    --page-pad-y: 4mm;
+    --page-pad-x: 6mm;
     --gap: 0;
     --title-height: 12mm;
-    --title-font-size: 4mm;
+    --title-font-size: 3mm;
+    --big-title-font-size: 5mm;
     --bg-font-size: 21mm;
     --row-height: 6mm;
     --title-padding-left: 3mm;
     --dark-border-width: 0.6mm;
     --dark-border-half-width: 0.3mm;
+    --dotted-line-weight: 0.25mm;
+    --calendar-number-font-size: 6mm;
 
     --ink: black;
     --muted: rgba(17, 17, 17, 0.45);
@@ -55,7 +59,7 @@ body {
     aspect-ratio: 297 / 210;
     height: auto;
     background: var(--paper);
-    padding: var(--page-pad);
+    padding: var(--page-pad-y) var(--page-pad-x);
     overflow: hidden;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
     break-inside: avoid;
@@ -81,9 +85,6 @@ body {
     font-size: var(--title-font-size);
     border: var(--dark-border-width) solid var(--dark-border-color);
     border-bottom: var(--dark-border-half-width) solid var(--dark-border-color);
-}
-
-.month-name__title {
 }
 
 .week-row {
@@ -123,21 +124,22 @@ body {
     pointer-events: none;
     user-select: none;
     z-index: 0;
-    font-weight: bold;
+    font-weight: normal;
     font-family: Arial;
-    -webkit-text-stroke: 0.1mm #00000036;
+    -webkit-text-stroke: 0.1mm #00000080;
     text-align: center;
 }
 
 .day-card__head {
     position: absolute;
-    bottom: 0.9mm;
+    bottom: 0mm;
     right: 1.5mm;
 }
 
 .day-card__weekday {
     white-space: nowrap;
     font-size: var(--title-font-size);
+    line-height: 4.7mm;
 }
 
 .day-card__date {
@@ -147,12 +149,12 @@ body {
 
 .day-card__lines {
     display: grid;
-    grid-template-rows: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(7, minmax(0, 1fr));
     height: 100%;
 }
 
 .line {
-    border-bottom: 0.24mm dashed rgba(17, 17, 17, 0.18);
+    border-bottom: var(--dotted-line-weight) dotted rgba(17, 17, 17, 0.18);
 }
 
 .line:last-child {
@@ -169,13 +171,14 @@ body {
     position: absolute;
     margin: auto;
     width: 100%;
-    top: 0.5mm;
+    top: 0;
     text-align: center;
+    line-height: var(--row-height);
 }
 
 .focus-card__lines {
     display: grid;
-    grid-template-rows: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(7, minmax(0, 1fr));
     height: 100%;
 }
 
@@ -183,7 +186,7 @@ body {
     grid-column: span 4 / span 4;
     display: grid;
     grid-template-rows: auto 1fr;
-    margin-top: 6mm;
+    margin-top: 3mm;
     border: 0.6mm solid #999999;
 }
 
@@ -198,6 +201,7 @@ body {
     line-height: var(--row-height);
     height: var(--row-height);
     border-bottom: var(--dark-border-width) solid var(--dark-border-color);
+    font-size: var(--title-font-size);
 }
 
 .front-notes-card__lines {
@@ -205,8 +209,12 @@ body {
 }
 
 .front-notes-card__lines .line {
-    border-bottom: 0.24mm dashed rgba(17, 17, 17, 0.18);
+    border-bottom: var(--dotted-line-weight) dotted rgba(17, 17, 17, 0.18);
     height: var(--row-height);
+}
+
+.front-notes-card__lines .line:last-child {
+    border-bottom: none;
 }
 
 /* ---------- PAGE 2 ---------- */
@@ -228,13 +236,14 @@ body {
     text-align: center;
     background-color: var(--dark-header-bg);
     line-height: var(--title-height);
-    font-size: var(--title-font-size);
+    font-size: var(--big-title-font-size);
     border: var(--dark-border-half-width) solid var(--dark-border-color);
 }
 
 .month-card__weekdays {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
+    font-size: var(--calendar-number-font-size);
 }
 
 .month-card__weekday {
@@ -247,7 +256,7 @@ body {
 .month-card__grid {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    grid-template-rows: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(5, minmax(0, 1fr));
 }
 
 .month-card__day {
@@ -255,10 +264,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: var(--calendar-number-font-size);
 }
 
 .month-card__day--out {
-    color: rgba(17, 17, 17, 0.35);
+    color: transparent!important;
 }
 
 .month-card__day--holiday {
@@ -283,6 +293,7 @@ body {
     text-align: center;
     background-color: #cccccc;
     line-height: var(--title-height);
+    font-size: var(--big-title-font-size);
 }
 
 .back-notes-card__lines {
@@ -290,12 +301,12 @@ body {
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 8mm;
     column-gap: 6mm;
-    padding: 0 6mm 6mm 6mm;
+    padding: 0 8mm 8mm 8mm;
     row-gap: 0;
 }
 
 .back-notes-card__lines .line {
-    border-bottom: 1px dashed #666;
+    border-bottom: 1px dotted #666;
     min-height: 8mm;
 }
 

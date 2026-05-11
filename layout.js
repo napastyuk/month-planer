@@ -155,7 +155,7 @@ async function loadHolidayMap() {
 
     if (Array.isArray(data.holidays)) {
         data.holidays.forEach((date) => {
-            map.set(date, {type: "holiday"});
+            map.set(date, { type: "holiday" });
         });
     }
 
@@ -163,7 +163,7 @@ async function loadHolidayMap() {
 
     if (Array.isArray(data.preholidays)) {
         data.preholidays.forEach((date) => {
-            map.set(date, { type: "preholiday"});
+            map.set(date, { type: "preholiday" });
         });
     }
 
@@ -171,7 +171,7 @@ async function loadHolidayMap() {
 
     if (Array.isArray(data.nowork)) {
         data.nowork.forEach((date) => {
-            map.set(date, { type: "nowork"});
+            map.set(date, { type: "nowork" });
         });
     }
 
@@ -183,7 +183,6 @@ async function loadHolidayMap() {
 ========================================================= */
 
 function renderMonthName(monthDate) {
-
     const nameEl = el("div", "month-name", `${monthTitle(monthDate)} - `);
 
     return nameEl;
@@ -200,7 +199,7 @@ function getMonthMatrix(year, month, holidayMap) {
 
     const weeks = [];
 
-    for (let week = 0; week < 6; week += 1) {
+    for (let week = 0; week < 5; week += 1) {
         const row = [];
 
         for (let day = 0; day < 7; day += 1) {
@@ -261,9 +260,11 @@ function renderDayCard(date, baseDate) {
 
     const head = el("div", "day-card__head");
 
-    head.append(el("span", "day-card__weekday", capitalizeFirst(shortWeekday(date))));
+    head.append(
+        el("span", "day-card__weekday", capitalizeFirst(shortWeekday(date))),
+    );
 
-    card.append(bg, makeLineSet(6, "day-card__lines"), head);
+    card.append(bg, makeLineSet(7, "day-card__lines"), head);
 
     return card;
 }
@@ -280,7 +281,7 @@ function renderFocusCard(weekStart) {
 
         // el("div", "focus-card__range", formatWeekRange(weekStart)), //добавляет надпись вида 18–24 мая
 
-        makeLineSet(6, "focus-card__lines"),
+        makeLineSet(7, "focus-card__lines"),
     );
 
     return card;
@@ -371,7 +372,7 @@ function renderBackNotesCard() {
     card.append(
         el("div", "back-notes-card__title", "Заметки"),
 
-        makeLineSet(27, "back-notes-card__lines")
+        makeLineSet(30, "back-notes-card__lines"),
     );
 
     return card;
@@ -383,7 +384,7 @@ function renderFrontNotesCard(monthDate) {
     card.append(
         el("div", "front-notes-card__title", `${monthTitle(monthDate)} - `),
 
-        makeLineSet(4, "front-notes-card__lines")
+        makeLineSet(5, "front-notes-card__lines"),
     );
 
     return card;
@@ -411,17 +412,11 @@ function renderFrontPage(root, baseDate) {
 ========================================================= */
 
 function renderBackPage(root, baseDate, holidayMap) {
-    root.appendChild(
-        renderMonthCard(addMonths(baseDate, 0), holidayMap),
-    );
+    root.appendChild(renderMonthCard(addMonths(baseDate, 0), holidayMap));
 
-    root.appendChild(
-        renderMonthCard(addMonths(baseDate, 1), holidayMap),
-    );
+    root.appendChild(renderMonthCard(addMonths(baseDate, 1), holidayMap));
 
-    root.appendChild(
-        renderMonthCard(addMonths(baseDate, 2), holidayMap),
-    );
+    root.appendChild(renderMonthCard(addMonths(baseDate, 2), holidayMap));
 
     root.appendChild(renderBackNotesCard());
 }
