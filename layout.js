@@ -1,4 +1,4 @@
-const WEEKDAY_LABELS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+const WEEKDAY_LABELS = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
 const MONTHS_SHORT_GENITIVE = [
     "янв.",
@@ -179,6 +179,17 @@ async function loadHolidayMap() {
 }
 
 /* =========================================================
+   MONTH NAME
+========================================================= */
+
+function renderMonthName(monthDate) {
+
+    const nameEl = el("div", "month-name", `${monthTitle(monthDate)} - `);
+
+    return nameEl;
+}
+
+/* =========================================================
    CALENDAR MATRIX
 ========================================================= */
 
@@ -250,13 +261,9 @@ function renderDayCard(date, baseDate) {
 
     const head = el("div", "day-card__head");
 
-    head.append(
-        el("span", "day-card__weekday", shortWeekday(date)),
+    head.append(el("span", "day-card__weekday", capitalizeFirst(shortWeekday(date))));
 
-        el("span", "day-card__date", String(date.getDate())),
-    );
-
-    card.append(bg, head, makeLineSet(6, "day-card__lines"));
+    card.append(bg, makeLineSet(6, "day-card__lines"), head);
 
     return card;
 }
@@ -271,7 +278,7 @@ function renderFocusCard(weekStart) {
     card.append(
         el("div", "focus-card__title", "Фокус недели"),
 
-        el("div", "focus-card__range", formatWeekRange(weekStart)),
+        // el("div", "focus-card__range", formatWeekRange(weekStart)), //добавляет надпись вида 18–24 мая
 
         makeLineSet(6, "focus-card__lines"),
     );
@@ -299,8 +306,8 @@ function renderWeekRow(weekStart, baseDate) {
    MONTH CARD
 ========================================================= */
 
-function renderMonthCard(monthDate, mode, holidayMap) {
-    const card = el("section", `month-card month-card--${mode}`);
+function renderMonthCard(monthDate, holidayMap) {
+    const card = el("section", "month-card");
 
     const matrix = getMonthMatrix(
         monthDate.getFullYear(),
@@ -358,13 +365,25 @@ function renderMonthCard(monthDate, mode, holidayMap) {
    NOTES
 ========================================================= */
 
-function renderNotesCard() {
-    const card = el("section", "notes-card");
+function renderBackNotesCard() {
+    const card = el("section", "back-notes-card");
 
     card.append(
-        el("div", "notes-card__title", "Заметки"),
+        el("div", "back-notes-card__title", "Заметки"),
 
-        makeLineSet(12, "notes-card__lines"),
+        makeLineSet(27, "back-notes-card__lines")
+    );
+
+    return card;
+}
+
+function renderFrontNotesCard(monthDate) {
+    const card = el("section", "front-notes-card");
+
+    card.append(
+        el("div", "front-notes-card__title", `${monthTitle(monthDate)} - `),
+
+        makeLineSet(4, "front-notes-card__lines")
     );
 
     return card;
@@ -374,20 +393,17 @@ function renderNotesCard() {
    FRONT PAGE
 ========================================================= */
 
-function renderFrontPage(root, baseDate, holidayMap) {
+function renderFrontPage(root, baseDate) {
+    root.appendChild(renderMonthName(baseDate));
+
     const weekStart = startOfWeekMonday(baseDate);
 
     for (let i = 0; i < 4; i += 1) {
         root.appendChild(renderWeekRow(addDays(weekStart, i * 7), baseDate));
     }
 
-    root.appendChild(
-        renderMonthCard(addMonths(baseDate, 1), "front", holidayMap),
-    );
-
-    root.appendChild(
-        renderMonthCard(addMonths(baseDate, 2), "front", holidayMap),
-    );
+    root.appendChild(renderFrontNotesCard(addMonths(baseDate, 1)));
+    root.appendChild(renderFrontNotesCard(addMonths(baseDate, 2)));
 }
 
 /* =========================================================
@@ -396,18 +412,18 @@ function renderFrontPage(root, baseDate, holidayMap) {
 
 function renderBackPage(root, baseDate, holidayMap) {
     root.appendChild(
-        renderMonthCard(addMonths(baseDate, 0), "back", holidayMap),
+        renderMonthCard(addMonths(baseDate, 0), holidayMap),
     );
 
     root.appendChild(
-        renderMonthCard(addMonths(baseDate, 1), "back", holidayMap),
+        renderMonthCard(addMonths(baseDate, 1), holidayMap),
     );
 
     root.appendChild(
-        renderMonthCard(addMonths(baseDate, 2), "back", holidayMap),
+        renderMonthCard(addMonths(baseDate, 2), holidayMap),
     );
 
-    root.appendChild(renderNotesCard());
+    root.appendChild(renderBackNotesCard());
 }
 
 /* =========================================================

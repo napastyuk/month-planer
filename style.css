@@ -1,341 +1,325 @@
 :root {
-  --page-w: 297mm;
-  --page-h: 210mm;
-  --page-pad: 8mm;
-  --gap: 0;
+    --page-w: 297mm;
+    --page-h: 210mm;
+    --page-pad: 8mm;
+    --gap: 0;
+    --title-height: 12mm;
+    --title-font-size: 4mm;
+    --bg-font-size: 21mm;
+    --row-height: 6mm;
+    --title-padding-left: 3mm;
+    --dark-border-width: 0.6mm;
+    --dark-border-half-width: 0.3mm;
 
-  --ink: black;
-  --muted: rgba(17, 17, 17, 0.45);
-  --soft: rgba(17, 17, 17, 0.16);
-  --soft-2: rgba(17, 17, 17, 0.09);
-  --paper: #fff;
-  --page-bg: #ececec;
+    --ink: black;
+    --muted: rgba(17, 17, 17, 0.45);
+    --soft: rgba(17, 17, 17, 0.16);
+    --soft-2: rgba(17, 17, 17, 0.09);
+    --paper: #fff;
+    --page-bg: #ececec;
+    --light-header-bg: #f3f3f3;
+    --dark-header-bg: #d5d5d5;
+    --dark-border-color: #999999;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  color: var(--ink);
-  font-family: "Comfortaa", Arial, sans-serif;
-  background: var(--page-bg);
+    margin: 0;
+    padding: 0;
+    color: var(--ink);
+    font-family: "Comfortaa", Arial, sans-serif;
+    background: var(--page-bg);
 }
 
 body {
-  min-height: 100vh;
+    min-height: 100vh;
 }
 
 .print-root {
-  display: grid;
-  gap: 24px;
-  justify-items: center;
-  padding: 24px;
+    display: grid;
+    gap: 24px;
+    justify-items: center;
+    padding: 24px;
 }
 
 .sheet {
-  width: min(var(--page-w), calc(100vw - 32px));
-  aspect-ratio: 297 / 210;
-  height: auto;
-  background: var(--paper);
-  padding: var(--page-pad);
-  overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  break-inside: avoid;
-  position: relative;
+    width: min(var(--page-w), calc(100vw - 32px));
+    aspect-ratio: 297 / 210;
+    height: auto;
+    background: var(--paper);
+    padding: var(--page-pad);
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    break-inside: avoid;
+    position: relative;
 }
 
 /* ---------- PAGE 1 ---------- */
 
 .sheet--front {
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  grid-template-rows: repeat(4, minmax(0, 1fr)) minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--gap);
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: auto repeat(5, minmax(0, 1fr));
+    gap: 0px;
+}
+
+.month-name {
+    grid-column: span 8 / span 8;
+    text-align: left;
+    padding-left: var(--title-padding-left);
+    background-color: var(--light-header-bg);
+    height: var(--row-height);
+    line-height: var(--row-height);
+    font-size: var(--title-font-size);
+    border: var(--dark-border-width) solid var(--dark-border-color);
+    border-bottom: var(--dark-border-half-width) solid var(--dark-border-color);
+}
+
+.month-name__title {
 }
 
 .week-row {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: var(--gap);
-  min-height: 0;
-}
-
-.day-card,
-.focus-card,
-.month-card,
-.notes-card {
-  border: 0.28mm solid var(--soft);
-  border-radius: 1.2mm;
-  background: #fff;
-  overflow: hidden;
-  min-width: 0;
-  min-height: 0;
-  position: relative;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    border-right: var(--dark-border-half-width) solid var(--dark-border-color);
+    border-left: var(--dark-border-half-width) solid var(--dark-border-color);
+    border-bottom: var(--dark-border-half-width) solid var(--dark-border-color);
+    border-top:none;
 }
 
 .day-card {
-  padding: 2.2mm;
-  display: grid;
-  grid-template-rows: auto 1fr;
+    position: relative;
+    border: var(--dark-border-half-width) solid var(--dark-border-color);
 }
 
 .day-card--muted {
-  opacity: 0.78;
+    opacity: 0.78;
 }
 
 .day-card--today {
-  border-color: var(--ink);
-  box-shadow: inset 0 0 0 0.45mm var(--ink);
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 0.45mm var(--ink);
 }
 
 .day-card__bg {
-  position: absolute;
-  right: 1.2mm;
-  bottom: 0.2mm;
-  font-size: 18mm;
-  line-height: 1;
-  font-weight: 700;
-  color: rgba(17, 17, 17, 0.08);
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    display: inline-block;
+    width: var(--bg-font-size);
+    height: var(--bg-font-size);
+    font-size: var(--bg-font-size);
+    line-height: 1;
+    color: rgb(239 239 239);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    font-weight: bold;
+    font-family: Arial;
+    -webkit-text-stroke: 0.1mm #00000036;
+    text-align: center;
 }
 
 .day-card__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2mm;
-  font-size: 8pt;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  position: relative;
-  z-index: 1;
+    position: absolute;
+    bottom: 0.9mm;
+    right: 1.5mm;
 }
 
 .day-card__weekday {
-  white-space: nowrap;
+    white-space: nowrap;
+    font-size: var(--title-font-size);
 }
 
 .day-card__date {
-  color: var(--muted);
-  font-size: 7pt;
+    color: var(--muted);
+    font-size: 7pt;
 }
 
 .day-card__lines {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-rows: repeat(6, minmax(0, 1fr));
-  padding-top: 1mm;
-  min-height: 0;
+    display: grid;
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+    height: 100%;
 }
 
 .line {
-  border-bottom: 0.24mm solid rgba(17, 17, 17, 0.18);
-  min-height: 0;
+    border-bottom: 0.24mm dashed rgba(17, 17, 17, 0.18);
 }
 
 .line:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .focus-card {
-  padding: 2.2mm;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 0.8mm;
-  background: linear-gradient(180deg, rgba(17, 17, 17, 0.02), rgba(17, 17, 17, 0.01));
+    border: var(--dark-border-half-width) solid var(--dark-border-color);
+    position: relative;
 }
 
 .focus-card__title {
-  font-size: 8pt;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.focus-card__range {
-  font-size: 7pt;
-  color: var(--muted);
+    font-size: var(--title-font-size);
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    top: 0.5mm;
+    text-align: center;
 }
 
 .focus-card__lines {
-  display: grid;
-  grid-template-rows: repeat(6, minmax(0, 1fr));
-  min-height: 0;
+    display: grid;
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+    height: 100%;
 }
 
-/* compact month overview blocks on page 1 */
-.month-card--front {
-  grid-column: 1 / -1;
-  padding: 1.6mm;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 0.8mm;
-  font-size: 4.8pt;
+.front-notes-card {
+    grid-column: span 4 / span 4;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    margin-top: 6mm;
+    border: 0.6mm solid #999999;
 }
 
-.month-card--front .month-card__title {
-  font-size: 7pt;
+.front-notes-card + .front-notes-card {
+    border-left: none;
 }
 
-.month-card--front .month-card__weekdays {
-  font-size: 4.6pt;
+.front-notes-card__title {
+    text-align: left;
+    padding-left: var(--title-padding-left);
+    background-color: var(--light-header-bg);
+    line-height: var(--row-height);
+    height: var(--row-height);
+    border-bottom: var(--dark-border-width) solid var(--dark-border-color);
 }
 
-.month-card--front .month-card__day {
-  font-size: 4.6pt;
-  padding: 0.35mm;
+.front-notes-card__lines {
+    display: grid;
 }
 
-.month-card--front .month-card__grid {
-  gap: 0.25mm;
+.front-notes-card__lines .line {
+    border-bottom: 0.24mm dashed rgba(17, 17, 17, 0.18);
+    height: var(--row-height);
 }
 
 /* ---------- PAGE 2 ---------- */
 
 .sheet--back {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: minmax(0, 1.08fr) minmax(0, 0.92fr);
-  gap: var(--gap);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10mm;
 }
 
-.month-card--back {
-  padding: 2mm;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 1mm;
-  font-size: 7pt;
-  min-height: 0;
+.month-card {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    border: var(--dark-border-half-width) solid var(--dark-border-color);
 }
 
 .month-card__title {
-  font-size: 9pt;
-  font-weight: 700;
-  line-height: 1.05;
-  margin: 0;
+    text-align: center;
+    background-color: var(--dark-header-bg);
+    line-height: var(--title-height);
+    font-size: var(--title-font-size);
+    border: var(--dark-border-half-width) solid var(--dark-border-color);
 }
 
 .month-card__weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0.4mm;
-  font-size: 6pt;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--muted);
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 .month-card__weekday {
-  text-align: center;
+    text-align: center;
+    background-color: #f3f3f3;
+    line-height: var(--title-height);
+    border: var(--dark-border-half-width) solid var(--dark-border-color);
 }
 
 .month-card__grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  grid-template-rows: repeat(6, minmax(0, 1fr));
-  gap: 0.4mm;
-  min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-rows: repeat(6, minmax(0, 1fr));
 }
 
 .month-card__day {
-  border: 0.22mm solid var(--soft-2);
-  border-radius: 0.8mm;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 0.7mm;
-  font-weight: 700;
-  background: rgba(17, 17, 17, 0.01);
-  min-width: 0;
-  min-height: 0;
+    border: var(--dark-border-half-width) solid var(--dark-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .month-card__day--out {
-  color: rgba(17, 17, 17, 0.35);
+    color: rgba(17, 17, 17, 0.35);
+}
+
+.month-card__day--holiday {
+    font-weight: bold;
+    color: #ff6b6b;
 }
 
 .month-card__day--today {
-  border-color: var(--ink);
-  box-shadow: inset 0 0 0 0.35mm var(--ink);
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 0.35mm var(--ink);
 }
 
-.notes-card {
-  grid-column: 1 / -1;
-  padding: 2.4mm;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 1.2mm;
+.back-notes-card {
+    grid-column: span 3 / span 3;
+    grid-row-start: 2;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border: 0.6mm solid #999999;
 }
 
-.notes-card__title {
-  font-size: 9pt;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+.back-notes-card__title {
+    text-align: center;
+    background-color: #cccccc;
+    line-height: var(--title-height);
 }
 
-.notes-card__lines {
-  display: grid;
-  grid-template-rows: repeat(12, minmax(0, 1fr));
-  min-height: 0;
+.back-notes-card__lines {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 8mm;
+    column-gap: 6mm;
+    padding: 0 6mm 6mm 6mm;
+    row-gap: 0;
+}
+
+.back-notes-card__lines .line {
+    border-bottom: 1px dashed #666;
+    min-height: 8mm;
 }
 
 /* ---------- PRINT ---------- */
 
 @media print {
-  html,
-  body {
-    background: #fff;
-  }
+    html,
+    body {
+        background: #fff;
+    }
 
-  .print-root {
-    gap: 0;
-    padding: 0;
-  }
+    .print-root {
+        gap: 0;
+        padding: 0;
+    }
 
-  .sheet {
-    width: 297mm;
-    height: 210mm;
-    aspect-ratio: auto;
-    box-shadow: none;
-  }
+    .sheet {
+        width: 297mm;
+        height: 210mm;
+        aspect-ratio: auto;
+        box-shadow: none;
+    }
 
-  .sheet + .sheet {
-    break-before: page;
-  }
-}
-
-.month-card__day--holiday {
-  font-weight: 900;
-
-  background:
-    repeating-linear-gradient(
-      -45deg,
-      rgba(0, 0, 0, 0.06),
-      rgba(0, 0, 0, 0.06) 1.2mm,
-      transparent 1.2mm,
-      transparent 2.4mm
-    );
-
-  border-color: rgba(0, 0, 0, 0.45);
-
-  box-shadow:
-    inset 0 0 0 0.35mm rgba(0, 0, 0, 0.35);
-}
-
-.month-card__day-name {
-  display: none;
+    .sheet + .sheet {
+        break-before: page;
+    }
 }
